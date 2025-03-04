@@ -27,4 +27,16 @@ public class Workout {
     private User user;
 
     private LocalDate date;
+
+    @Override
+    public String toString() {
+        return "Workout{" +
+                "id=" + id +
+                ", exercise='" + exercise + '\'' +
+                ", sets=" + sets +
+                ", reps=" + reps +
+                ", weight=" + weight +
+                ", date=" + date +
+                '}';
+    }
 }
