@@ -1,6 +1,5 @@
 package com.example.fittrack.Components;
 
-import com.example.fittrack.Security.UserDetailsImp;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -36,7 +35,7 @@ public class TokenFilter extends OncePerRequestFilter {
             if(jwt != null){
                 try{
                     username = jwtCore.getNameFromJwt(jwt);
-                } catch (ExpiredJwtException e){
+                } catch (ExpiredJwtException _){
 
                 }
                 if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
@@ -45,7 +44,7 @@ public class TokenFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
             }
-        } catch (Exception e){
+        } catch (Exception _){
 
         }
         filterChain.doFilter(request, response);

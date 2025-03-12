@@ -29,4 +29,8 @@ public class JwtCore {
     public String getNameFromJwt(String token){
         return Jwts.parser().setSigningKey(secret).parseClaimsJwt(token).getBody().getSubject();
     }
+
+    public long getExpirationTime() {
+        return System.currentTimeMillis() + 60000;
+    }
 }

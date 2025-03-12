@@ -1,5 +1,6 @@
 package com.example.fittrack.Controllers;
 
+import com.example.fittrack.DTO.Login;
 import com.example.fittrack.DTO.SignInRequest;
 import com.example.fittrack.DTO.SignUpRequest;
 import com.example.fittrack.Entity.User;
@@ -69,13 +70,17 @@ public class SecurityController {
     @PostMapping("/signin")
     ResponseEntity<?> signIn(@RequestBody SignInRequest signInRequest){
         try{
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getUsername(),signInRequest.getPassword()));
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(signInRequest.getUsername(),signInRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtCore.generateToken(authentication);
-            return ResponseEntity.ok(jwt);
+            long expTime =  jwtCore.getExpirationTime();
+            String username = authentication.getName();
+
+            return ResponseEntity.ok(new Login(true,jwt, expTime, username, "Login successful"));
         } catch (BadCredentialsException e) {
-            System.out.println("Invalid username or password");
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new Login(false, null, 0, null, "Invalid username or password"));
         }
 
     }

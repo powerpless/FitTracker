@@ -17,4 +17,19 @@ public class WorkoutController {
         return ResponseEntity.ok(workoutService.addWorkout(workout, userId));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Workout> getWorkoutById(@PathVariable Long id) {
+        return ResponseEntity.ok(workoutService.getWorkoutById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Workout> updateWorkout(@PathVariable Long id, @RequestBody Workout workout) {
+        return ResponseEntity.ok(workoutService.updateWorkout(id, workout));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteWorkout(@PathVariable Long id) {
+        workoutService.deleteWorkout(id);
+        return ResponseEntity.noContent().build();
+    }
 }
